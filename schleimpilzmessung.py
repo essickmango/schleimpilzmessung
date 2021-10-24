@@ -1,8 +1,8 @@
 """
-NAME
-Authors: Anne-Sophie Ruh, Timon Meyer
+Schleimpilzmessung
+By Anne-Sophie Ruh, Timon Meyer
 
-DESCR.
+This program uses opencv to measure slime molds, more specifically P. Polycephalum for a matura paper (every student of the swiss version of highschool has to write a matura paper in the last 2 years).
 """
 
 # python version 3.8.10 (libraries without pip name & version are default)
@@ -129,13 +129,14 @@ class App(tk.Tk):
             # TODO: another interesting structure, use maybe later?
             # lab = cv2.cvtColor(im1, cv2.COLOR_RGB2Lab)
 
+            # Uncomment the following lines to remove water drops from the recognition.
             # extreme blue means condensing water vapor
-            b, _1, _2 = cv2.split(sub1)
-            sub1 = cv2.subtract(sub1, cv2.merge([b, b, b]))
+            # b, _1, _2 = cv2.split(sub1)
+            # sub1 = cv2.subtract(sub1, cv2.merge([b, b, b]))
 
             # green / red for vapor above white paper.
-            _1, g, _2 = cv2.split(sub2)
-            sub2 = cv2.subtract(sub2, cv2.merge([g, g, g]))
+            # _1, g, _2 = cv2.split(sub2)
+            # sub2 = cv2.subtract(sub2, cv2.merge([g, g, g]))
 
             # read the thresholds from the UI
             min_r1, min_g1, min_b1 = int(self.r1_sv.get()), int(self.g1_sv.get()), int(self.b1_sv.get())
@@ -322,7 +323,13 @@ class App(tk.Tk):
                         elif parents % 2 == 1 and area > 10:
                             # but only subtract areas > 10 px (and not those)
                             removed.append(c)
-                    
+                   
+                    # Uncomment the following lines to save the detected areas as images (useful to measure the precision)
+                    # cv2.imwrite(os.path.join(exportpath, filename + str(s.num) + ".jpg"), img[s.t:s.b+1,s.l:s.r+1]  )
+                    # cp = cropped.copy()
+                    # cv2.drawContours(cp, filtered, -1, color=0, thickness=cv2.FILLED)
+                    # cv2.imwrite(os.path.join(exportpath, filename + str(s.num) + "_export.jpg"), cv2.subtract(crop  ped, cp))
+
                     # area is the sum of all areas without the removed parts, changed into mm²
                     area = (
                         sum([cv2.contourArea(c) for c in filtered])
