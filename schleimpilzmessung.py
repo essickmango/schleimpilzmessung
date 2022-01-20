@@ -280,7 +280,7 @@ class App(tk.Tk):
         # create header row of export
         res = [["Image"]]
         for i in self.shards:
-            res[0] += [str(i.num), "𝚫area", "distance", "𝚫distance", "top", "bottom"]
+            res[0] += [str(i.num), "delta area", "distance", "delta distance", "top", "bottom"]
         
         try:
             pxpmm = float(self.pxs.get())
